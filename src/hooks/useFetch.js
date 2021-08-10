@@ -11,7 +11,6 @@ const useFetch = (route, ref, initialData) => {
         try {
           const res = await fetch(route);
           const resJson = await res.json();
-          console.log('🚀 ~ file: useFetch.js ~ line 15 ~ resJson', resJson);
           setData(resJson);
         } catch (err) {
           setError(err);

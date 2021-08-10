@@ -1,10 +1,10 @@
 import React from 'react';
-import TreeList from './components/TreeList';
+import TreeContainer from './components/TreeContainer';
 
 function App(): JSX.Element {
   return (
     <div className="App">
-      <TreeList />
+      <TreeContainer />
     </div>
   );
 }
