@@ -5,10 +5,16 @@ type TreeProps = {
 };
 
 const Tree: React.FC<TreeProps> = ({ data = [] }) => {
+  const [expandedNodeKey, setExpandedNodeKey] = useState<string>('');
+
+  const expandNodeHandler = (key: string) => {
+    setExpandedNodeKey((prevState) => (key === prevState ? '' : key));
+  };
+
   return (
     <ul>
       {data.map((tree: TreeList) => (
-        <TreeNode node={tree} key={tree.key} />
+        <TreeNode node={tree} key={tree.key} isExpanded={tree.key === expandedNodeKey} expandCb={expandNodeHandler} />
       ))}
     </ul>
   );
@@ -16,30 +22,53 @@ const Tree: React.FC<TreeProps> = ({ data = [] }) => {
 
 type TreeNodeProps = {
   node: TreeList;
+  isExpanded: boolean;
+  expandCb: (key: string) => void;
 };
 
-const TreeNode: React.FC<TreeNodeProps> = ({ node }) => {
-  const [expandNode, setExpandNode] = useState(true);
+const TreeNode: React.FC<TreeNodeProps> = React.memo(({ node, isExpanded, expandCb }) => {
+  const [expandAllNodes, setExpandAllNodes] = useState(true);
 
   const hasChild = !!node.children?.length;
+  const radioType = node.type === 'radio';
 
   return hasChild ? (
     <li>
-      <div onClick={() => setExpandNode((prevState) => !prevState)} aria-hidden="true">
-        <img src={expandNode ? './collapse.svg' : './expand.svg'} alt="expand" />
+      <div
+        onClick={() => (radioType ? expandCb(node.key) : setExpandAllNodes((prevState) => !prevState))}
+        aria-hidden="true">
+        {radioType ? (
+          <img src={isExpanded ? './collapse.svg' : './expand.svg'} alt="expand" />
+        ) : (
+          <input
+            type="checkbox"
+            checked={expandAllNodes}
+            onChange={() => setExpandAllNodes((prevState) => !prevState)}
+            onClick={() => setExpandAllNodes((prevState) => !prevState)}
+          />
+        )}
         <span>{node.name}</span>
       </div>
-      {expandNode && (
-        <ul>
-          <Tree data={node.children} />
-        </ul>
-      )}
+      {!radioType
+        ? expandAllNodes && (
+            <ul>
+              <Tree data={node.children} />
+            </ul>
+          )
+        : isExpanded && (
+            <ul>
+              <Tree data={node.children} />
+            </ul>
+          )}
     </li>
   ) : (
     <li className="child" aria-hidden="true">
       <span>{node.name}</span>
     </li>
   );
-};
+});
 
+/* const comparisonFn = function (prevProps: TreeProps, nextProps: TreeProps) {
+  return prevProps.data !== nextProps.data;
+}; */
 export default Tree;

@@ -2,14 +2,17 @@
   {
     "key": "-1",
     "name": "Computer",
+    "type": "checkbox",
     "children": [
       {
         "key": "0",
         "name": "Documents Folder",
+        "type": "radio",
         "children": [
           {
             "key": "0-0",
             "name": "Media Folder",
+            "type": "checkbox",
             "children": [
               {
                 "key": "0-1-1",
@@ -28,19 +31,35 @@
                 "name": "Favorite"
               }
             ]
+          },
+          {
+            "key": "0-1",
+            "name": "Projects Folder",
+            "type": "checkbox",
+            "children": [
+              {
+                "key": "0-1-5",
+                "name": "Finished"
+              },
+              {
+                "key": "0-1-6",
+                "name": "Ongoing"
+              }
+            ]
           }
         ]
       },
       {
         "key": "1",
         "name": "Desktop Folder",
+        "type": "radio",
         "children": [
           {
-            "key": "1-0",
+            "key": "0-0",
             "name": "Apps"
           },
           {
-            "key": "0-0",
+            "key": "1-0",
             "name": "Notes"
           }
         ]
@@ -48,6 +67,7 @@
       {
         "key": "2",
         "name": "Downloads Folder",
+        "type": "checkbox",
         "children": []
       }
     ]
