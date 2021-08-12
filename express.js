@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const portNumber = process.env.PORT || 3001;
 
-const list = require('./src/data/list.json');
+const list = require('./public/list.json');
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');

@@ -5,7 +5,7 @@ import Tree from './Tree';
 
 const TreeContainer: React.FC = () => {
   const isMountedRef = useRef(true);
-  const { data, error, loading } = useFetch('/list', isMountedRef, {});
+  const { data, error, loading } = useFetch('list.json', isMountedRef, {});
 
   return (
     <div className="container tree-container">
