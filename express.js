@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const portNumber = 3001;
+const portNumber = process.env.PORT || 3001;
 
 const list = require('./src/data/list.json');
 
@@ -18,6 +18,13 @@ app.get('/', function (req, res) {
 app.get('/list', (req, res) => {
   res.send(list);
 });
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'build')));
+  app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  });
+}
 
 app.listen(portNumber, () => {
   console.log(`Express web server started: http://localhost:${portNumber}`);
